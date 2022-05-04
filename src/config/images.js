@@ -5,7 +5,7 @@ export const Images_Src = {
     minus: require("../assets/images/icons/polygon-minus.7c0cfcec.svg").default,
     plus: require("../assets/images/icons/polygon-plus.31881de3.svg").default,
   },
-  welcome: require("../assets/images/photo_2022-03-25_01-33-28-removebg.png")
+  welcome: require("../assets/images/BANER41213.png")
     .default,
   cards: [
     require("../assets/images/NFKEYZ/150.png").default,
