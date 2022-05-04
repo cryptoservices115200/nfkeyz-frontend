@@ -23,12 +23,12 @@ const Home = () => {
       <img className="blur" src={Images_Src.blur} alt="blur" />
       <MintSection user={user} />
       <WelcomeSection />
-      <CollectSection />
-      <RoadmapSection />
-      <Carousel />
-      <FaqSection />
-      <CommunitySection />
-      <SocialIcons className="text-center my-8" />
+      {/*<CollectSection />*/}
+      {/*<RoadmapSection />*/}
+      {/*<Carousel />*/}
+      {/*<FaqSection />*/}
+      {/*<CommunitySection />*/}
+      {/*<SocialIcons className="text-center my-8" />*/}
     </div>
   );
 };
