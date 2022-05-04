@@ -66,7 +66,7 @@ const SignIn = ({ setUser, showConnectButton }) => {
         }}
         className="signin-btn"
       >
-        Signin
+          Claim VIP Badge
       </button>
       {modalStatus && (
         <div className="modal">
