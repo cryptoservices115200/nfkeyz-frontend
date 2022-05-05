@@ -20,7 +20,7 @@ const Home = () => {
           setUser(val);
         }}
       />
-      <img className="blur" src={Images_Src.blur} alt="blur" />
+      {/*<img className="blur" src={Images_Src.blur} alt="blur" />*/}
       <MintSection user={user} />
       <WelcomeSection />
       {/*<CollectSection />*/}
