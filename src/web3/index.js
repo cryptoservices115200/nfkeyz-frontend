@@ -1,4 +1,4 @@
-import { InjectedConnector } from "@web3-react/injected-connector";
+import {InjectedConnector} from "@web3-react/injected-connector";
 import Web3 from "web3";
 
 const web3 = new Web3(Web3.givenProvider);
@@ -14,98 +14,113 @@ const NFKeysContractAddress = "0xAcAf3E313aDA728d77FF0F81eaeBAce006e04529";
 const SalesContractAddress = "0x223B710c14cB0c08bA5b50B45b45c73D67CE9d67";
 
 const NFKeysContract = new web3.eth.Contract(
-  NFKeysContractAbi,
-  NFKeysContractAddress
+    NFKeysContractAbi,
+    NFKeysContractAddress
 );
 
 const SalesContract = new web3.eth.Contract(
-  SalesContractAbi,
-  SalesContractAddress
+    SalesContractAbi,
+    SalesContractAddress
 );
 
 const injected = new InjectedConnector({});
 
 const connect = async (activate) => {
-  try {
-    await activate(injected);
-  } catch (error) {
-    console.log(error);
-  }
+    try {
+        await activate(injected);
+    } catch (error) {
+        console.log(error);
+    }
 };
 
 const disconnect = async (deactivate) => {
-  try {
-    deactivate();
-  } catch (error) {
-    console.log(error);
-  }
+    try {
+        deactivate();
+    } catch (error) {
+        console.log(error);
+    }
 };
 
 const humanReadableAccount = (_account) => {
-  return _account.slice(0, 6) + "..." + _account.slice(_account.length - 4);
+    return _account.slice(0, 6) + "..." + _account.slice(_account.length - 4);
 };
 
 const mint = (address, quantity, fee) => {
-  return SalesContract.methods.mint(address, quantity).send({
-    from: address,
-    value: quantity * fee,
-  });
+    return SalesContract.methods.mint(address, quantity).send({
+        from: address,
+        value: quantity * fee,
+    });
 };
 
 const whiteListMint = (proof, address, quantity, fee) => {
-  return SalesContract.methods.whiteListMint(proof, address, quantity).send({
-    from: address,
-    value: quantity * fee,
-  });
+    return SalesContract.methods.whiteListMint(proof, address, quantity).send({
+        from: address,
+        value: quantity * fee,
+    });
 };
 
 const getBalanceOf = (address) => {
-  return NFKeysContract.methods.balanceOf(address).call();
+    return NFKeysContract.methods.balanceOf(address).call();
 };
 
 const getTotalSupply = () => {
-  return NFKeysContract.methods.totalSupply().call();
+    return NFKeysContract.methods.totalSupply().call();
 };
+
+const getMintStep = () => {
+    return SalesContract.methods.mintStep().call();
+}
 
 const getFeePerQuantity = () => {
-  return SalesContract.methods.fee().call();
+    return SalesContract.methods.fee().call();
 };
+
+const getPresaleFeeQuantity = () => {
+    return SalesContract.methods.presaleFee().call();
+}
 
 const getMintLimit = () => {
-  return SalesContract.methods.mintLimit().call();
+    return SalesContract.methods.mintLimit().call();
 };
 
+const getPresaleMintLimit = () => {
+    return SalesContract.methods.presaleLimit().call();
+}
+
 const changeMintLimit = (mintLimit, address) => {
-  return SalesContract.methods
-    .changeMintLimit(mintLimit)
-    .send({ from: address });
+    return SalesContract.methods
+        .changeMintLimit(mintLimit)
+        .send({from: address});
 };
 
 const changeFee = (fee, address) => {
-  return SalesContract.methods.changeFee(fee).send({ from: address });
+    return SalesContract.methods.changeFee(fee).send({from: address});
 };
 
 const hasRoleAdmin = async (address) => {
-  const _admin = await SalesContract.methods.ADMIN().call();
-  return SalesContract.methods.hasRole(_admin, address).call();
+    const _admin = await SalesContract.methods.ADMIN().call();
+    return SalesContract.methods.hasRole(_admin, address).call();
 };
 
 const setMerkleRootWL = (root, address) => {
-  return SalesContract.methods.setMerkleRootWL(root).send({ from: address });
+    return SalesContract.methods.setMerkleRootWL(root).send({from: address});
 };
 
 export {
-  connect,
-  disconnect,
-  humanReadableAccount,
-  mint,
-  getFeePerQuantity,
-  getTotalSupply,
-  getBalanceOf,
-  getMintLimit,
-  hasRoleAdmin,
-  changeMintLimit,
-  changeFee,
-  setMerkleRootWL,
-  whiteListMint,
+    connect,
+    disconnect,
+    humanReadableAccount,
+    mint,
+    getMintStep,
+    getFeePerQuantity,
+    getPresaleFeeQuantity,
+    getTotalSupply,
+    getBalanceOf,
+    getMintLimit,
+    getPresaleMintLimit,
+    hasRoleAdmin,
+    changeMintLimit,
+    changeFee,
+    setMerkleRootWL,
+    whiteListMint,
 };

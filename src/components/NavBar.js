@@ -45,7 +45,8 @@ const NavBar = ({ user, setUser }) => {
     setDoc(doc(db, "userbalance", user.uid), {
       email: user.email,
       account: account,
-      balance: _balance,
+      balance: parseInt(_balance),
+      userid: user.uid
     });
   };
 

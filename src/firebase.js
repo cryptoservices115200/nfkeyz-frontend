@@ -2,13 +2,13 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAASXNUHe7osMxi0zvNz1guND29a06Y84s",
-  authDomain: "nf-key-firebase.firebaseapp.com",
-  projectId: "nf-key-firebase",
-  storageBucket: "nf-key-firebase.appspot.com",
-  messagingSenderId: "858821879082",
-  appId: "1:858821879082:web:c4a6124555dcfeee98ea53",
-  measurementId: "G-RR6E4563KT",
+  apiKey: "AIzaSyCIv-0w_LPFWQTP9phkEGzimFnyv07tTFE",
+  authDomain: "crogram-7e7d3.firebaseapp.com",
+  projectId: "crogram-7e7d3",
+  storageBucket: "crogram-7e7d3.appspot.com",
+  messagingSenderId: "580725388282",
+  appId: "1:580725388282:web:40d87deec82b05b302ea43",
+  measurementId: "G-EN5FZH274V"
 };
 
 // Initialize Firebase
