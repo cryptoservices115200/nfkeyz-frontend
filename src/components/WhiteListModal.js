@@ -16,15 +16,15 @@ const WhiteListModal = ({ onClose }) => {
   const [whitelist, setWhitelist] = useState([]);
   const addressInputRef = useRef(null);
 
-  useEffect(() => {
-    axios.get("http://localhost:4000/whitelist").then((res) => {
-      setWhitelist(
-        res.data.map((item, index) => {
-          return item.address;
-        })
-      );
-    });
-  }, []);
+  // useEffect(() => {
+  //   axios.get("http://localhost:4000/whitelist").then((res) => {
+  //     setWhitelist(
+  //       res.data.map((item, index) => {
+  //         return item.address;
+  //       })
+  //     );
+  //   });
+  // }, []);
 
   const addToWhitelist = () => {
     if (addressInputRef.current.value === "") {
@@ -59,11 +59,11 @@ const WhiteListModal = ({ onClose }) => {
 
     setMerkleRootWL(root, account)
       .on("receipt", function (receipt) {
-        axios
-          .post("http://localhost:4000/whitelist/update", whitelist)
-          .then((res) => {
-            console.log(res);
-          });
+        // axios
+        //   .post("http://localhost:4000/whitelist/update", whitelist)
+        //   .then((res) => {
+        //     console.log(res);
+        //   });
         toast.update(id, {
           render: "Successfully Whitelist Changed",
           type: "success",

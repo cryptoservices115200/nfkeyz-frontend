@@ -23,10 +23,10 @@ const Admin = () => {
 
   const loadAdmin = async () => {
     if (active) {
-      if (chainId !== "1") {
+      if (chainId !== "4") {
         await window.ethereum.request({
           method: "wallet_switchEthereumChain",
-          params: [{ chainId: "0x1" }],
+          params: [{ chainId: "0x4" }],
         });
       }
       const _fee = await getFeePerQuantity();

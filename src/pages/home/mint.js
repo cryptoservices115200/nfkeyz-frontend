@@ -13,6 +13,7 @@ import {
     getFeePerQuantity,
     getPresaleFeeQuantity,
     getMintLimit,
+    getPresaleLimit,
     getPresaleMintLimit,
     getTotalSupply,
     mint,
@@ -74,43 +75,47 @@ const MintSection = ({user}) => {
                 });
             }
 
-            const _mintStep = await getMintStep();
+            const _mintStep = parseInt(await getMintStep());
             const _fee = _mintStep === 1 ? await getPresaleFeeQuantity() : await getFeePerQuantity();
             const _totalSupply = await getTotalSupply();
             const _balance = await getBalanceOf(account);
             const _mintLimit = _mintStep === 1 ? await getPresaleMintLimit() : await getMintLimit();
 
             setMintStats({
+                mintStep: _mintStep,
                 feePerQuantity: _fee,
                 totalSupply: _totalSupply,
                 balance: _balance,
                 mintLimit: _mintLimit,
             });
 
-            setDoc(doc(db, "userbalance", user.uid), {
-                email: user.email,
-                account: account,
-                balance: parseInt(_balance),
-                userId: user.uid
-            });
+            if (user && account) {
+                setDoc(doc(db, "userbalance", user.uid), {
+                    email: user.email,
+                    account: account,
+                    balance: parseInt(_balance),
+                    userId: user.uid
+                });
+            }
         }
     };
 
-    const handleWhiteListMint = () => {
+    const handleWhiteListMint = async () => {
         if (active) {
             if (!mintStats) {
                 return;
             }
-            const hashedAddresses = whitelist.map((addr) => keccak256(addr));
-            const merkleTree = new MerkleTree(hashedAddresses, keccak256, {
-                sortPairs: true,
-            });
-            const hashedAddress = keccak256(account);
-            const proof = merkleTree.getHexProof(hashedAddress);
+            // const hashedAddresses = whitelist.map((addr) => keccak256(addr));
+            // const merkleTree = new MerkleTree(hashedAddresses, keccak256, {
+            //     sortPairs: true,
+            // });
+            // const hashedAddress = keccak256(account);
+            // const proof = merkleTree.getHexProof(hashedAddress);
+            // const res = await axios.get(`http://localhost:5000/api/getProof?address=${account}`)
+            // const proof = res.data.hexProof;
 
             const id = toast.loading("Transaction pending");
             whiteListMint(
-                proof,
                 account,
                 parseInt(quantity),
                 mintStats?.feePerQuantity
@@ -146,17 +151,15 @@ const MintSection = ({user}) => {
 
     useEffect(() => {
         load();
-    }, [account]);
+    }, [account, user]);
 
-    useEffect(() => {
-        axios.get("http://localhost:4000/whitelist").then((res) => {
-            setWhitelist(
-                res.data.map((item, index) => {
-                    return item.address;
-                })
-            );
-        });
-    }, []);
+    // useEffect(() => {
+    //     axios.get("http://localhost:5000/api/whitelist").then((res) => {
+    //         setWhitelist(
+    //             res.data.addresses
+    //         );
+    //     });
+    // }, []);
 
     if (active) {
         return (
@@ -196,6 +199,7 @@ const MintSection = ({user}) => {
                         <input
                             value={quantity}
                             onChange={(e) => setQuantity(e.target.value)}
+                            style={{color: 'white'}}
                         />
                         <button
                             onClick={() => setQuantity(quantity + 1)}
@@ -204,7 +208,7 @@ const MintSection = ({user}) => {
                             <FaPlus/>
                         </button>
                     </div>
-                    <button onClick={handleMint} className="mint-btn">
+                    {mintStats && mintStats.mintStep === 2 && <button onClick={handleMint} className="mint-btn">
                         {`Mint(${
                             mintStats
                                 ? Web3.utils.fromWei(
@@ -213,10 +217,10 @@ const MintSection = ({user}) => {
                                 )
                                 : 0
                         } ETH)`}
-                    </button>
-                    {whitelist.includes(account) ? (
+                    </button>}
+                    {mintStats && mintStats.mintStep === 1 && <div>
                         <button onClick={handleWhiteListMint} className="mint-btn">
-                            {"Private mint"}
+                            {"Presale mint"}
                             <br/>
                             {`(${
                                 mintStats
@@ -227,9 +231,7 @@ const MintSection = ({user}) => {
                                     : 0
                             } ETH)`}
                         </button>
-                    ) : (
-                        <div className="error">You are not whitelisted</div>
-                    )}
+                    </div>}
                     <div className="balance">
                         {`Your balance: ${mintStats?.balance || 0}`}
                     </div>

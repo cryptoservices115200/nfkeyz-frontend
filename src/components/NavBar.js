@@ -42,12 +42,14 @@ const NavBar = ({ user, setUser }) => {
 
   const addToFireStore = async () => {
     const _balance = await getBalanceOf(account);
-    setDoc(doc(db, "userbalance", user.uid), {
-      email: user.email,
-      account: account,
-      balance: parseInt(_balance),
-      userid: user.uid
-    });
+    if (user && account) {
+      setDoc(doc(db, "userbalance", user.uid), {
+        email: user.email,
+        account: account,
+        balance: parseInt(_balance),
+        userid: user.uid
+      });
+    }
   };
 
   useEffect(() => {
@@ -67,19 +69,21 @@ const NavBar = ({ user, setUser }) => {
 
         <div className="flex items-center">
           <SocialIcons />
-          {!signInStatus ? (
-            <SignIn
+          {/*{!signInStatus ? (*/}
+          <SignIn
+              signInStatus={signInStatus}
+              user={user}
               setUser={(val) => setUser(val)}
               showConnectButton={() => showConnectButton()}
             />
-          ) : (
+          {/*) : (*/}
             <button
               className="connect-wallet-btn"
               onClick={handleConnectWallet}
             >
               {active ? humanReadableAccount(account) : "Connect Wallet"}
             </button>
-          )}
+          {/*)}*/}
         </div>
         <div
           className={"hamburger " + (hamburgerStatus && "active")}

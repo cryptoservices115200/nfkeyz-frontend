@@ -4,7 +4,7 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { RiCloseCircleFill } from "react-icons/ri";
 import { toast, ToastContainer } from "react-toastify";
 
-const SignIn = ({ setUser, showConnectButton }) => {
+const SignIn = ({ signInStatus, user, setUser, showConnectButton }) => {
   const [modalStatus, setModalStatus] = useState(false);
   const [error, setError] = useState(null);
   const emailInputRef = useRef(null);
@@ -29,6 +29,7 @@ const SignIn = ({ setUser, showConnectButton }) => {
         });
         setUser(userCredential.user);
         showConnectButton();
+        setModalStatus(signInStatus)
       })
       .catch((error) => {
         if (error.code === "auth/user-not-found") {
@@ -65,8 +66,9 @@ const SignIn = ({ setUser, showConnectButton }) => {
           setModalStatus(true);
         }}
         className="signin-btn"
+        disabled={signInStatus}
       >
-          Claim VIP Badge
+          {signInStatus ? user.email : 'Claim VIP Badge'}
       </button>
       {modalStatus && (
         <div className="modal">

@@ -10,7 +10,7 @@ const WelcomeSection = () => {
         <Title>{"The Official NFT’s For The CroGram App."}</Title>
         <div className="flex mt-8 sm-wrap">
           <Button className="mr-4">{"View On Opensea"}</Button>
-          <Button gradient>{"Mint Now"}</Button>
+          {/*<Button gradient>{"Mint Now"}</Button>*/}
         </div>
       </div>
       <div className="right">

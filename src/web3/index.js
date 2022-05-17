@@ -4,26 +4,19 @@ import Web3 from "web3";
 const web3 = new Web3(Web3.givenProvider);
 
 const NFKeysContractAbi = require("./abi/NFKeysContractAbi.json");
-const SalesContractAbi = require("./abi/SalesContractAbi.json");
 
 // testnet rinkbey
-// const NFKeysContractAddress = "0x9bF9a87dA723d38529F485407da7C2EeD9950DAA";
-// const SalesContractAddress = "0xFcF4A288d8A1fD736d62022808eBa923E66e4e2D";
+const NFKeysContractAddress = "0xE6413d90e5d100C640fa1D88BA2BDF76E87B64F6";
 
-const NFKeysContractAddress = "0xAcAf3E313aDA728d77FF0F81eaeBAce006e04529";
-const SalesContractAddress = "0x223B710c14cB0c08bA5b50B45b45c73D67CE9d67";
+// const NFKeysContractAddress = "0xAcAf3E313aDA728d77FF0F81eaeBAce006e04529";
+// const SalesContractAddress = "0x223B710c14cB0c08bA5b50B45b45c73D67CE9d67";
 
 const NFKeysContract = new web3.eth.Contract(
     NFKeysContractAbi,
     NFKeysContractAddress
 );
 
-const SalesContract = new web3.eth.Contract(
-    SalesContractAbi,
-    SalesContractAddress
-);
-
-const injected = new InjectedConnector({});
+const injected = new InjectedConnector({ supportedNetworks: [1, 4] });
 
 const connect = async (activate) => {
     try {
@@ -46,14 +39,14 @@ const humanReadableAccount = (_account) => {
 };
 
 const mint = (address, quantity, fee) => {
-    return SalesContract.methods.mint(address, quantity).send({
+    return NFKeysContract.methods.mintPublic(quantity).send({
         from: address,
         value: quantity * fee,
     });
 };
 
-const whiteListMint = (proof, address, quantity, fee) => {
-    return SalesContract.methods.whiteListMint(proof, address, quantity).send({
+const whiteListMint = (address, quantity, fee) => {
+    return NFKeysContract.methods.mintPresale(quantity).send({
         from: address,
         value: quantity * fee,
     });
@@ -68,42 +61,42 @@ const getTotalSupply = () => {
 };
 
 const getMintStep = () => {
-    return SalesContract.methods.mintStep().call();
+    return NFKeysContract.methods.mintStep().call();
 }
 
 const getFeePerQuantity = () => {
-    return SalesContract.methods.fee().call();
+    return NFKeysContract.methods.mintPrice().call();
 };
 
 const getPresaleFeeQuantity = () => {
-    return SalesContract.methods.presaleFee().call();
+    return NFKeysContract.methods.presalePrice().call();
 }
 
 const getMintLimit = () => {
-    return SalesContract.methods.mintLimit().call();
+    return NFKeysContract.methods.mintLimit().call();
 };
 
 const getPresaleMintLimit = () => {
-    return SalesContract.methods.presaleLimit().call();
+    return NFKeysContract.methods.presaleLimit().call();
 }
 
 const changeMintLimit = (mintLimit, address) => {
-    return SalesContract.methods
+    return NFKeysContract.methods
         .changeMintLimit(mintLimit)
         .send({from: address});
 };
 
 const changeFee = (fee, address) => {
-    return SalesContract.methods.changeFee(fee).send({from: address});
+    return NFKeysContract.methods.changePublicMintPrice(fee).send({from: address});
 };
 
 const hasRoleAdmin = async (address) => {
-    const _admin = await SalesContract.methods.ADMIN().call();
-    return SalesContract.methods.hasRole(_admin, address).call();
+    const _admin = await NFKeysContract.methods.ADMIN().call();
+    return NFKeysContract.methods.hasRole(_admin, address).call();
 };
 
 const setMerkleRootWL = (root, address) => {
-    return SalesContract.methods.setMerkleRootWL(root).send({from: address});
+    return NFKeysContract.methods.setMerkleRootWL(root).send({from: address});
 };
 
 export {
