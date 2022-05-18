@@ -45,7 +45,7 @@ const AdminNavBar = () => {
           <SocialIcons />
 
           <button className="connect-wallet-btn" onClick={handleConnectWallet}>
-            {active ? humanReadableAccount(account) : "Connect Wallet"}
+            {active ? humanReadableAccount(account) : "Connect Wallet!!!"}
           </button>
         </div>
         <div

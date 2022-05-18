@@ -69,21 +69,22 @@ const NavBar = ({ user, setUser }) => {
 
         <div className="flex items-center">
           <SocialIcons />
-          {/*{!signInStatus ? (*/}
-          <SignIn
-              signInStatus={signInStatus}
-              user={user}
-              setUser={(val) => setUser(val)}
-              showConnectButton={() => showConnectButton()}
-            />
-          {/*) : (*/}
-            <button
-              className="connect-wallet-btn"
-              onClick={handleConnectWallet}
-            >
-              {active ? humanReadableAccount(account) : "Connect Wallet"}
-            </button>
-          {/*)}*/}
+          <div className="creditbuttons">
+            <SignIn
+                signInStatus={signInStatus}
+                user={user}
+                setUser={(val) => setUser(val)}
+                showConnectButton={() => showConnectButton()}
+              />
+          </div>
+          <div className="creditbuttons">
+              <button
+                className="connect-wallet-btn"
+                onClick={handleConnectWallet}
+              >
+                {active ? humanReadableAccount(account) : "Connect Wallet"}
+              </button>
+          </div>
         </div>
         <div
           className={"hamburger " + (hamburgerStatus && "active")}
@@ -96,8 +97,25 @@ const NavBar = ({ user, setUser }) => {
       </div>
 
       <div className="sidebar" ref={sidebarRef} onClick={() => toggleVisible()}>
-        <div>
-          <SocialIcons />
+        <div className="handsome">
+            <SocialIcons />
+            <div className="creditbuttons">
+              <SignIn
+                  signInStatus={signInStatus}
+                  user={user}
+                  setUser={(val) => setUser(val)}
+                  showConnectButton={() => showConnectButton()}
+                />
+            </div>
+            <div style={{height:'5px'}}></div>
+            <div className="creditbuttons">
+                <button
+                  className="connect-wallet-btn"
+                  onClick={handleConnectWallet}
+                >
+                  {active ? humanReadableAccount(account) : "Connect Wallet"}
+                </button>
+            </div>
         </div>
       </div>
     </div>
